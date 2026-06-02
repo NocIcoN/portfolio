@@ -1,14 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { OWNER } from "@/lib/data";
 
 export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
 
+  const nameRef    = useRef<HTMLInputElement>(null);
+  const emailRef   = useRef<HTMLInputElement>(null);
+  const subjectRef = useRef<HTMLSelectElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const name    = nameRef.current?.value || "";
+    const email   = emailRef.current?.value || "";
+    const subject = subjectRef.current?.value || "";
+    const message = messageRef.current?.value || "";
+
+    const text = `Hi Ilham! *Name:* ${name} *Email:* ${email} *Subject:* ${subject} *Message:* ${message}`;
+
+    const url = `https://wa.me/${OWNER.whatsapp}?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+
     setSubmitted(true);
   };
 
@@ -52,8 +68,8 @@ export default function ContactSection() {
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div className="grid grid-cols-2 gap-4">
-                <FormField label="Name" type="text" placeholder="Your name" required />
-                <FormField label="Email" type="email" placeholder="your@email.com" required />
+                <FormField label="Name"  type="text"  placeholder="Your name"       required inputRef={nameRef} />
+                <FormField label="Email" type="email" placeholder="your@email.com"  required inputRef={emailRef} />
               </div>
 
               <div>
@@ -61,6 +77,7 @@ export default function ContactSection() {
                   Subject
                 </label>
                 <select
+                  ref={subjectRef}
                   className="w-full bg-[#F7F5F2] border border-black/[0.08] rounded-lg px-3.5 py-3 text-sm text-[#1A1916] font-sans focus:outline-none focus:border-[#2D6A4F] transition-colors"
                   required
                 >
@@ -81,6 +98,7 @@ export default function ContactSection() {
                   placeholder="Tell me about your project or opportunity..."
                   required
                   className="w-full bg-[#F7F5F2] border border-black/[0.08] rounded-lg px-3.5 py-3 text-sm text-[#1A1916] resize-y font-sans focus:outline-none focus:border-[#2D6A4F] transition-colors"
+                  ref={messageRef}
                 />
               </div>
 
@@ -99,15 +117,13 @@ export default function ContactSection() {
 }
 
 function FormField({
-  label,
-  type,
-  placeholder,
-  required,
+  label, type, placeholder, required, inputRef,
 }: {
   label: string;
   type: string;
   placeholder: string;
   required?: boolean;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }) {
   return (
     <div>
@@ -115,6 +131,7 @@ function FormField({
         {label}
       </label>
       <input
+        ref={inputRef}
         type={type}
         placeholder={placeholder}
         required={required}

@@ -9,6 +9,7 @@ export const OWNER = {
   university: "STMIK PPKIA Pradnya Paramita",
   location: "Malang, East Java, Indonesia",
   email: "ilhamfirdaus08123@email.com",
+  whatsapp: "6281228264986",
   bio: [
     "I'm a junior software developer based in Indonesia with a passion for creating well-crafted, user-friendly applications. I graduated with a degree in Information Systems from STMIK PPKIA Pradnya Paramita.",
     "Currently working at PT Assist Software Indonesia Pratama, I'm continually expanding my skill set — from web technologies like HTML, CSS, and JavaScript to modern frameworks like React.js and Next.js, as well as Android development with Kotlin and cross-platform apps with Flutter.",
