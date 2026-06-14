@@ -1,12 +1,17 @@
+"use client";
+
 import SectionLabel from "@/components/ui/SectionLabel";
+import { useLang } from "@/lib/LanguageContext";
 import { SOCIAL_LINKS } from "@/lib/data";
 
 export default function SocialSection() {
+  const { t } = useLang();
+
   return (
     <section id="social" className="py-24 max-w-6xl mx-auto px-6 text-center">
-      <SectionLabel>Connect</SectionLabel>
-      <h2 className="font-serif text-4xl text-[#1A1916] mb-2">GitHub &amp; Social Links</h2>
-      <p className="text-[#6B6860] mb-12">Find me across the web</p>
+      <SectionLabel>{t.social.label}</SectionLabel>
+      <h2 className="font-serif text-4xl text-[#1A1916] mb-2">{t.social.heading}</h2>
+      <p className="text-[#6B6860] mb-12">{t.social.subtitle}</p>
 
       <div className="flex justify-center gap-6 flex-wrap">
         {SOCIAL_LINKS.map((link) => (

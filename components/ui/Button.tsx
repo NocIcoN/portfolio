@@ -7,6 +7,7 @@ interface ButtonProps {
   children: React.ReactNode;
   variant?: Variant;
   className?: string;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export default function Button({
@@ -14,6 +15,7 @@ export default function Button({
   children,
   variant = "primary",
   className = "",
+  onClick,
 }: ButtonProps) {
   const base =
     "inline-flex items-center justify-center px-8 py-3.5 rounded-full text-sm font-medium transition-all duration-200";
@@ -41,7 +43,7 @@ export default function Button({
   }
 
   return (
-    <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
+    <Link href={href} onClick={onClick} className={`${base} ${variants[variant]} ${className}`}>
       {children}
     </Link>
   );

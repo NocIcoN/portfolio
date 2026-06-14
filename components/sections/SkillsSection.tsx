@@ -1,17 +1,30 @@
+"use client";
+
 import SectionLabel from "@/components/ui/SectionLabel";
 import SkillCard from "@/components/ui/SkillCard";
-import { SKILLS } from "@/lib/data";
+import { useLang } from "@/lib/LanguageContext";
+import { SKILLS_META } from "@/lib/data";
 
 export default function SkillsSection() {
+  const { t } = useLang();
+
   return (
     <section id="skills" className="py-24 max-w-6xl mx-auto px-6 text-center">
-      <SectionLabel>Tech Stack</SectionLabel>
-      <h2 className="font-serif text-4xl text-[#1A1916] mb-2">Skills &amp; Technologies</h2>
-      <p className="text-[#6B6860] mb-12">What I work with and what I&apos;m actively learning</p>
+      <SectionLabel>{t.skills.label}</SectionLabel>
+      <h2 className="font-serif text-4xl text-[#1A1916] mb-2">{t.skills.heading}</h2>
+      <p className="text-[#6B6860] mb-12">{t.skills.subtitle}</p>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 text-left">
-        {SKILLS.map((skill) => (
-          <SkillCard key={skill.name} skill={skill} />
+        {t.skills.items.map((skill, i) => (
+          <SkillCard
+            key={skill.name}
+            name={skill.name}
+            description={skill.description}
+            icon={SKILLS_META[i].icon}
+            level={SKILLS_META[i].level}
+            learning={SKILLS_META[i].learning}
+            learningLabel={t.skills.learningBadge}
+          />
         ))}
       </div>
     </section>

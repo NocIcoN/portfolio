@@ -1,7 +1,9 @@
 import Button from "@/components/ui/Button";
-import { OWNER } from "@/lib/data";
+import { useLang } from "@/lib/LanguageContext";
 
 export default function HeroSection() {
+  const { t } = useLang();
+
   return (
     <section
       id="hero"
@@ -10,30 +12,29 @@ export default function HeroSection() {
       {/* Available badge */}
       <div className="inline-flex items-center gap-2 bg-white border border-black/[0.08] rounded-full px-4 py-1.5 mb-8 w-fit text-sm text-[#6B6860]">
         <span className="w-2 h-2 rounded-full bg-[#52B788] animate-pulse block" />
-        Open to opportunities
+        {t.hero.badge}
       </div>
 
-      <p className="text-sm text-[#6B6860] tracking-widest uppercase mb-5">Hello, I&apos;m</p>
+      <p className="text-sm text-[#6B6860] tracking-widest uppercase mb-5">{t.hero.greeting}</p>
 
       <h1 className="font-serif text-[clamp(3rem,8vw,5.5rem)] leading-[1.05] text-[#1A1916] mb-4">
-        {OWNER.name.split(" ")[0]}
+        {t.hero.firstName}
         <br />
-        <em className="italic text-[#2D6A4F]">{OWNER.name.split(" ")[1]}</em>
+        <em className="italic text-[#2D6A4F]">{t.hero.lastName}</em>
       </h1>
 
-      <p className="text-lg text-[#6B6860] max-w-xl leading-relaxed mb-10">
-        Junior Software Developer crafting clean, functional digital experiences — from web apps
-        to mobile solutions. Currently at {OWNER.company}.
-      </p>
+      <p className="text-lg text-[#6B6860] max-w-xl leading-relaxed mb-10">{t.hero.subtitle}</p>
 
       <div className="flex gap-4 flex-wrap items-center">
-        <Button href="#projects">View My Work</Button>
-        <Button href="#contact" variant="outline">Let&apos;s Talk</Button>
+        <Button href="#projects">{t.hero.ctaWork}</Button>
+        <Button href="#contact" variant="outline">
+          {t.hero.ctaTalk}
+        </Button>
       </div>
 
       <div className="mt-16 flex items-center gap-3 text-[#6B6860] text-xs tracking-widest uppercase">
         <span className="w-10 h-px bg-[#6B6860] block" />
-        Scroll to explore
+        {t.hero.scroll}
       </div>
     </section>
   );

@@ -1,18 +1,20 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, FormEvent } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { OWNER } from "@/lib/data";
 
 export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
 
   const nameRef    = useRef<HTMLInputElement>(null);
   const emailRef   = useRef<HTMLInputElement>(null);
   const subjectRef = useRef<HTMLSelectElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    if (cooldown) return;
     e.preventDefault();
 
     const name    = nameRef.current?.value || "";
@@ -20,12 +22,24 @@ export default function ContactSection() {
     const subject = subjectRef.current?.value || "";
     const message = messageRef.current?.value || "";
 
-    const text = `Hi Ilham! *Name:* ${name} *Email:* ${email} *Subject:* ${subject} *Message:* ${message}`;
+    if (!name.trim() || !email.includes("@") || !message.trim()) {
+      alert("Please fill in all fields correctly.");
+      return;
+    }
+
+    const text = `Hi Ilham! my name is ${name} and my email is ${email}
+    ${subject} 
+    ${message}`;
 
     const url = `https://wa.me/${OWNER.whatsapp}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank");
 
+    const honeypot = (e.currentTarget.elements.namedItem("honeypot") as HTMLInputElement).value;
+    if (honeypot) return;
+
     setSubmitted(true);
+    setCooldown(true);
+    setTimeout(() => setCooldown(false), 60000);
   };
 
   return (
@@ -100,13 +114,14 @@ export default function ContactSection() {
                   className="w-full bg-[#F7F5F2] border border-black/[0.08] rounded-lg px-3.5 py-3 text-sm text-[#1A1916] resize-y font-sans focus:outline-none focus:border-[#2D6A4F] transition-colors"
                   ref={messageRef}
                 />
+                <input type="text" name="honeypot" className="hidden" tabIndex={-1} autoComplete="off" />
               </div>
 
-              <button
+              <button disabled={cooldown}
                 type="submit"
                 className="w-full bg-[#2D6A4F] text-white font-semibold text-sm py-3.5 rounded-full hover:bg-[#1B4332] hover:-translate-y-0.5 transition-all duration-200 mt-1"
               >
-                Send Message
+                {cooldown ? "Please wait..." : "Send Message"}
               </button>
             </form>
           )}
