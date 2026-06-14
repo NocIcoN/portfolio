@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import LangSwitch from "@/components/ui/LangSwitch";
 import Link from "next/link";
-import { NAV_SECTIONS, OWNER } from "@/lib/data";
+import { NAV_SECTIONS } from "@/lib/data";
 import Image from "next/image";
 import { useLang } from "@/lib/LanguageContext";
 
